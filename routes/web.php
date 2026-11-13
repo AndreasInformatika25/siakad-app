@@ -70,10 +70,21 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
 });
 
+// Route::middleware('auth', 'role:admin')->group(function () {
+//     Route::resource('dosen', DosenController::class)->except(['show']);
+//     Route::resource('mahasiswa', MahasiswaController::class)->except(['show']);
+//     Route::resource('mmata-kuliah', MataKuliahController::class)->except(['show']);
+// });
+
+// Perbaiki grup middleware admin menjadi:
 Route::middleware('auth', 'role:admin')->group(function () {
     Route::resource('dosen', DosenController::class)->except(['show']);
     Route::resource('mahasiswa', MahasiswaController::class)->except(['show']);
-    Route::resource('mmata-kuliah', MataKuliahController::class)->except(['show']);
+
+    // Typo "mmata-kuliah" diperbaiki menjadi "mata-kuliah", dan parameter ditambahkan
+    Route::resource('mata-kuliah', MataKuliahController::class)
+        ->except(['show'])
+        ->parameters(['mata-kuliah' => 'mataKuliah']);
 });
 
 Route::middleware('auth', 'role:dosen')->group(function () {
